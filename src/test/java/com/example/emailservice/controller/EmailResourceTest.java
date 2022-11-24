@@ -1,9 +1,11 @@
 package com.example.emailservice.controller;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("integration")
 class EmailResourceTest {
     /**
      * The following can be used to test endpoints or else I can just do assertions.

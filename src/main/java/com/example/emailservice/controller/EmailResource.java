@@ -1,32 +1,27 @@
 package com.example.emailservice.controller;
 
 import com.example.emailservice.model.CustomerEmailDTO;
-import com.example.emailservice.service.EmailSenderService;
+import com.example.emailservice.service.EmailServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/emails")
 public class EmailResource {
-    private final EmailSenderService emailSenderService;
 
-    public EmailResource(EmailSenderService emailSenderService) {
-        this.emailSenderService = emailSenderService;
+    private final EmailServiceImpl emailServiceImpl;
+
+    public EmailResource(EmailServiceImpl emailServiceImpl) {
+        this.emailServiceImpl = emailServiceImpl;
     }
 
     @PostMapping("/test/message")
-    public String testEmail() {
-        // Insert mail you want to send the message too
-        this.emailSenderService.sendSimpleEmail(
+    public CustomerEmailDTO testEmail() {
+        return this.emailServiceImpl.sendEmail(
                 "",
-                "Hej Mathias (exam project test)!",
+                "Hej du (exam project test)!",
                 "Der er hul igennem."
         );
-        return "Test message has been sent.";
-    }
-
-    @PostMapping("/message")
-    public CustomerEmailDTO responseEmail(@RequestBody CustomerEmailDTO customerEmailDTO) {
-        return emailSenderService.sendEmail(customerEmailDTO.getToEmail(), customerEmailDTO.getSubject(), customerEmailDTO.getText());
     }
 }
