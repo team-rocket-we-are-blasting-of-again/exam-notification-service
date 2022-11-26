@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.mock;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("unit")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class EmailServiceImplTest {
 
     private JavaMailSender mailSenderMock;
