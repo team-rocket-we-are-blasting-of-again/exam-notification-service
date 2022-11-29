@@ -3,17 +3,12 @@ package com.example.emailservice.unit.service;
 import com.example.emailservice.model.CustomerNotification;
 import com.example.emailservice.model.NewCustomerEventDTO;
 import com.example.emailservice.service.EmailServiceImpl;
-import com.example.emailservice.service.KafkaService;
-import com.example.emailservice.service.KafkaServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import com.example.emailservice.application.KafkaService;
+import com.example.emailservice.application.KafkaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.kafka.annotation.KafkaListener;
 
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class KafkaServiceImplTest {

@@ -1,15 +1,14 @@
-package com.example.emailservice.service;
+package com.example.emailservice.application;
 
 import com.example.emailservice.model.CustomerEmailDTO;
 import com.example.emailservice.model.CustomerNotification;
 import com.example.emailservice.model.NewCustomerEventDTO;
+import com.example.emailservice.service.EmailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor

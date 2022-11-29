@@ -1,4 +1,4 @@
-package com.example.emailservice.service;
+package com.example.emailservice.application;
 
 import com.example.emailservice.model.CustomerNotification;
 import com.example.emailservice.model.NewCustomerEventDTO;
