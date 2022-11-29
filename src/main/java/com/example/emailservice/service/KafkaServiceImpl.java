@@ -1,8 +1,12 @@
 package com.example.emailservice.service;
 
+import com.example.emailservice.model.CustomerEmailDTO;
+import com.example.emailservice.model.CustomerNotification;
+import com.example.emailservice.model.NewCustomerEventDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,38 +18,27 @@ public class KafkaServiceImpl implements KafkaService {
     private final EmailServiceImpl emailServiceImpl;
 
     @Override
-    @KafkaListener(topics = "ORDER_ACCEPTED", groupId = "order-status")
-    public void orderAccepted(String toEmail) throws IOException {
-        String subject = "Order being prepared";
-        String message = "Your order has been accepted and is being prepared.";
-        log.info("Consumed event: ORDER_ACCEPTED to email:" + toEmail);
-        emailServiceImpl.sendEmail(toEmail, subject, message);
+    @KafkaListener(topics = "CUSTOMER_NOTIFICATION", groupId = "order-manager")
+    public void orderNotification(@Payload CustomerNotification customerNotification) {
+        log.info("Consumed event: CUSTOMER_NOTIFICATION to email:" + customerNotification.getEmail());
+        try {
+            CustomerEmailDTO returnVal = emailServiceImpl.sendEmail(customerNotification.getEmail(),
+                    customerNotification.getSubject(), customerNotification.getMessage());
+            log.info("Email successfully sent to " + returnVal + " with subject: " + customerNotification.getSubject());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
-    @KafkaListener(topics = "ORDER_PICKED_UP", groupId = "order-status")
-    public void orderPickedUp(String toEmail) throws IOException {
-        String subject = "Order on the way";
-        String message = "Your order is being delivered to your address.";
-        log.info("Consumed event: ORDER_PICKED_UP to email:" + toEmail);
-        emailServiceImpl.sendEmail(toEmail, subject, message);
-    }
-
-    @Override
-    @KafkaListener(topics = "ORDER_CANCELED", groupId = "order-status")
-    public void orderCancelled(String toEmail) throws IOException {
-        String subject = "Order cancellation";
-        String message = "Your order has been cancelled.";
-        log.info("Consumed event: ORDER_CANCELED to email:" + toEmail);
-        emailServiceImpl.sendEmail(toEmail, subject, message);
-    }
-
-    @Override
-    @KafkaListener(topics = "NEW_CUSTOMER", groupId = "customer-status")
-    public void customerSignup(String toEmail) throws IOException {
+    @KafkaListener(topics = "NEW_CUSTOMER", groupId = "order-manager")
+    public void customerSignup(@Payload NewCustomerEventDTO newCustomerEventDTO) {
         String subject = "Signup";
-        String message = "You have successfully been registered.";
-        log.info("Consumed event: NEW_CUSTOMER to email:" + toEmail);
-        emailServiceImpl.sendEmail(toEmail, subject, message);
+        String message = "Thank you " +
+                newCustomerEventDTO.getFirstName() + " " +
+                newCustomerEventDTO.getLastName() +
+                " for registering at MTOGO.";
+        log.info("Consumed event: NEW_CUSTOMER to email:" + newCustomerEventDTO.getEmail());
+        emailServiceImpl.sendEmail(newCustomerEventDTO.getEmail(), subject, message);
     }
 }
