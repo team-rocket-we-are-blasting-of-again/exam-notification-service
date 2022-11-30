@@ -3,22 +3,22 @@ package com.example.emailservice.unit.service;
 import com.example.emailservice.model.CustomerNotification;
 import com.example.emailservice.model.NewCustomerEventDTO;
 import com.example.emailservice.service.EmailServiceImpl;
-import com.example.emailservice.application.KafkaService;
+import com.example.emailservice.application.KafkaCustomerListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.mock;
 
-class KafkaServiceTest {
+class KafkaCustomerListenerTest {
 
     private EmailServiceImpl emailServiceMock;
-    private KafkaService kafkaService;
+    private KafkaCustomerListener kafkaCustomerListener;
 
     @BeforeEach
     void setup() {
         emailServiceMock = mock(EmailServiceImpl.class);
-        kafkaService = new KafkaService(emailServiceMock);
+        kafkaCustomerListener = new KafkaCustomerListener(emailServiceMock);
     }
 
     @Test
@@ -28,7 +28,7 @@ class KafkaServiceTest {
         String message = "Your order has been cancelled.";
         CustomerNotification notification = new CustomerNotification(toEmail, subject, message);
 
-        kafkaService.orderNotification(notification);
+        kafkaCustomerListener.orderNotification(notification);
         Mockito.verify(emailServiceMock).sendEmail(toEmail, subject, message);
         Mockito.verifyNoMoreInteractions(emailServiceMock);
     }
@@ -41,7 +41,7 @@ class KafkaServiceTest {
                 new NewCustomerEventDTO("Bob", "The Builder",
                         "email", 1, "88888888");
 
-        kafkaService.customerSignup(dto);
+        kafkaCustomerListener.customerSignup(dto);
         Mockito.verify(emailServiceMock).sendEmail(dto.getEmail(), subject, message);
         Mockito.verifyNoMoreInteractions(emailServiceMock);
     }

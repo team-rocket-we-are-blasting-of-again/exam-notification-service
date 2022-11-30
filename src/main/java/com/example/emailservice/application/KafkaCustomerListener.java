@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaService {
+public class KafkaCustomerListener {
     private final EmailServiceImpl emailServiceImpl;
 
     @KafkaListener(topics = "CUSTOMER_NOTIFICATION", groupId = "order-manager")
@@ -22,7 +22,8 @@ public class KafkaService {
         try {
             CustomerEmailDTO returnVal = emailServiceImpl.sendEmail(customerNotification.getEmail(),
                     customerNotification.getSubject(), customerNotification.getMessage());
-            log.info("Email successfully sent to " + returnVal + " with subject: " + customerNotification.getSubject());
+            log.info("Email successfully sent to {} with subject: {}", returnVal.getToEmail(),
+                    customerNotification.getSubject());
         } catch (Exception e) {
             log.error(e.getMessage());
         }
