@@ -4,14 +4,13 @@ import com.example.emailservice.model.CustomerNotification;
 import com.example.emailservice.model.NewCustomerEventDTO;
 import com.example.emailservice.service.EmailServiceImpl;
 import com.example.emailservice.application.KafkaService;
-import com.example.emailservice.application.KafkaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.mock;
 
-class KafkaServiceImplTest {
+class KafkaServiceTest {
 
     private EmailServiceImpl emailServiceMock;
     private KafkaService kafkaService;
@@ -19,7 +18,7 @@ class KafkaServiceImplTest {
     @BeforeEach
     void setup() {
         emailServiceMock = mock(EmailServiceImpl.class);
-        kafkaService = new KafkaServiceImpl(emailServiceMock);
+        kafkaService = new KafkaService(emailServiceMock);
     }
 
     @Test
