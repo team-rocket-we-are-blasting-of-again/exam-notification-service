@@ -2,7 +2,7 @@ package com.example.emailservice.application;
 
 import com.example.emailservice.model.CustomerEmailDTO;
 import com.example.emailservice.model.CustomerNotification;
-import com.example.emailservice.model.NewCustomerEventDTO;
+import com.example.emailservice.model.NewCustomer;
 import com.example.emailservice.service.EmailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,13 +30,13 @@ public class KafkaCustomerListener {
     }
 
     @KafkaListener(topics = "NEW_CUSTOMER", groupId = "order-manager")
-    public void customerSignup(@Payload NewCustomerEventDTO newCustomerEventDTO) {
+    public void customerSignup(@Payload NewCustomer newCustomer) {
         String subject = "Signup";
         String message = "Thank you " +
-                newCustomerEventDTO.getFirstName() + " " +
-                newCustomerEventDTO.getLastName() +
+                newCustomer.getFirstName() + " " +
+                newCustomer.getLastName() +
                 " for registering at MTOGO.";
-        log.info("Consumed event: NEW_CUSTOMER to email:" + newCustomerEventDTO.getEmail());
-        emailServiceImpl.sendEmail(newCustomerEventDTO.getEmail(), subject, message);
+        log.info("Consumed event: NEW_CUSTOMER to email:" + newCustomer.getEmail());
+        emailServiceImpl.sendEmail(newCustomer.getEmail(), subject, message);
     }
 }
