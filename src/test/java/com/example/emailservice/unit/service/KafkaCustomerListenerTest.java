@@ -1,7 +1,7 @@
 package com.example.emailservice.unit.service;
 
 import com.example.emailservice.model.CustomerNotification;
-import com.example.emailservice.model.NewCustomerEventDTO;
+import com.example.emailservice.model.NewCustomer;
 import com.example.emailservice.service.EmailServiceImpl;
 import com.example.emailservice.application.KafkaCustomerListener;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,8 +37,8 @@ class KafkaCustomerListenerTest {
     public void customerSignup(){
         String subject = "Signup";
         String message = "Thank you Bob The Builder for registering at MTOGO.";
-        NewCustomerEventDTO dto =
-                new NewCustomerEventDTO("Bob", "The Builder",
+        NewCustomer dto =
+                new NewCustomer("Bob", "The Builder",
                         "email", 1, "88888888");
 
         kafkaCustomerListener.customerSignup(dto);

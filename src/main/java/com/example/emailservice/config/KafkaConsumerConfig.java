@@ -1,7 +1,7 @@
 package com.example.emailservice.config;
 
 import com.example.emailservice.model.CustomerNotification;
-import com.example.emailservice.model.NewCustomerEventDTO;
+import com.example.emailservice.model.NewCustomer;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -51,7 +51,7 @@ public class KafkaConsumerConfig {
         typeMapper.addTrustedPackages("com.baeldung.spring.kafka");
         Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("customerNotification", CustomerNotification.class);
-        mappings.put("newCustomerEventDTO", NewCustomerEventDTO.class);
+        mappings.put("newCustomer", NewCustomer.class);
         typeMapper.setIdClassMapping(mappings);
         converter.setTypeMapper(typeMapper);
         return converter;
